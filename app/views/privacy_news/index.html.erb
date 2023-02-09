@@ -1,0 +1,48 @@
+<style>
+section{
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 12px;
+    color: #000000;
+    background-color: #FFFFFF;
+    margin-left: 5%;
+    padding: 0px;
+    
+}
+</style>
+
+<h1>Latest News About Privacy</h1>
+<section >
+<h2>Your saved articles</h2>
+<p>
+<ul>
+  <% @fav_articles.each do |article| %>
+        <%= form_with(url: privacy_news_path(article), method: :delete) do  %>
+            <li><a href= <%= article.url %>> <%= article.title %> </a></li>
+            <%= hidden_field_tag :id, article.id %>
+            <%= submit_tag "Delete from my fav "%>
+        <%end %>
+  <% end %>
+</ul>
+</p>
+<hr>
+<h2>Last 5 days privacy news</h2>
+<ul>
+    <%i = 0%>
+    <% @titles.zip(@urls) do |title,url| %>
+       <%= form_with(url: {action: :create}) do  %>
+            <li>
+                <%= hidden_field_tag :title, title %>
+                <%= hidden_field_tag :url, url %>
+                <%= hidden_field_tag :description, @descriptions[i] %>
+                <a href= <%= url %>> <%= title %> </a>
+                <br>
+                <%= @descriptions[i]%>
+                <br>
+                <%= submit_tag "Save to my fav "%>
+               
+            </li>
+        <%end %>
+        <%i=i+1%>
+    <% end %>
+</ul>
+<section>
